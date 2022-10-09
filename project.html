@@ -5,6 +5,39 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="main.css">
+
+
+		<div style="position: absolute; left: 0px; top: 50px">
+			
+		<button type="submit" onclick="func_position1('-')"><</button>
+		<input type="" id="inp1" value="30">
+		<button type="submit" onclick="func_position1('+')">></button>
+		<p>
+		<button type="submit" onclick="func_position2('-')"><</button>
+		<input type="" id="inp2" value="30">
+		<button type="submit" onclick="func_position2('+')">></button>
+		<p>
+		<button type="submit" onclick="func_position3('-')"><</button>
+		<input type="" id="inp3" value="30">
+		<button type="submit" onclick="func_position3('+')">></button>
+		<p>
+		<button type="submit" onclick="func_position4('-')"><</button>
+		<input type="" id="inp4" value="30">
+		<button type="submit" onclick="func_position4('+')">></button>
+		<p>
+		<button type="submit" onclick="func_position5('-')"><</button>
+		<input type="" id="inp5" value="30">
+		<button type="submit" onclick="func_position5('+')">></button>
+		<p>
+		<button type="submit" onclick="func_position6('-')"><</button>
+		<input type="" id="inp6" value="30">
+		<button type="submit" onclick="func_position6('+')">></button>
+
+		</div>
+		
+		
+
+
 	</head>
 	<body>
 		<div id="info">
@@ -14,12 +47,75 @@
 
 		<!-- Import maps polyfill -->
 		<!-- Remove this when import maps will be widely supported -->
+
+		<script type="text/javascript">
+
+			let position1 = 0;
+			let position2 = 0;
+			let position3 = 0;
+			let position4 = 0;
+			let position5 = 0;
+			let position6 = 0;
+
+			function func_position1(sign) {
+				change1 = Number(document.getElementById('inp1').value)
+				if (sign == "+") {
+					position1 = position1 + change1
+				} else {
+					position1 = position1 - change1
+				}
+			}
+			function func_position2(sign) {
+				change2 = Number(document.getElementById('inp2').value)
+				if (sign == "+") {
+					position2 = position2 + change2
+				} else {
+					position2 = position2 - change2
+				}
+			}
+			function func_position3(sign) {
+				change3 = Number(document.getElementById('inp3').value)
+				if (sign == "+") {
+					position3 = position3 + change3
+				} else {
+					position3 = position3 - change3
+				}
+			}
+			function func_position4(sign) {
+				change4 = Number(document.getElementById('inp4').value)
+				if (sign == "+") {
+					position4 = position4 + change4
+				} else {
+					position4 = position4 - change4
+				}
+			}
+			function func_position5(sign) {
+				change5 = Number(document.getElementById('inp5').value)
+				if (sign == "+") {
+					position5 = position5 + change5
+				} else {
+					position5 = position5 - change5
+				}
+			}
+			function func_position6(sign) {
+				change6 = Number(document.getElementById('inp6').value)
+				if (sign == "+") {
+					position6 = position6 + change6
+				} else {
+					position6 = position6 - change6
+				}
+			}
+			
+		</script>
+
+
+
 		<script async src="es-module-shims.js"></script>
 
 		<script type="importmap">
 			{
 				"imports": {
-					"three": "three.module.js"
+					"three": "./three.module.js"
 				}
 			}
 		</script>
@@ -28,10 +124,10 @@
 
 			import * as THREE from 'three';
 
-			import Stats from 'stats.module.js';
+			import Stats from './stats.module.js';
 
-			import { TWEEN } from 'tween.module.min.js';
-			import { ColladaLoader } from 'ColladaLoader.js';
+			import { TWEEN } from './tween.module.min.js';
+			import { ColladaLoader } from './ColladaLoader.js';
 
 			let container, stats;
 
@@ -45,7 +141,7 @@
 
 			const loader = new ColladaLoader();
 			// loader.load( './models/collada/kawada-hironx.dae', function ( collada ) {
-			loader.load( 'abb_irb52_7_120.dae', function ( collada ) {
+			loader.load( 'http://127.0.0.1:8000/abb_irb52_7_120.dae', function ( collada ) {
 
 				dae = collada.scene;
 
@@ -119,7 +215,7 @@
 
 			function setupTween() {
 
-				const duration = THREE.MathUtils.randInt( 1000, 5000 );
+				const duration = 100;
 
 				const target = {};
 
@@ -136,8 +232,27 @@
 							const position = old ? old : joint.zeroPosition;
 
 							tweenParameters[ prop ] = position;
-
+							
+							
 							target[ prop ] = THREE.MathUtils.randInt( joint.limits.min, joint.limits.max );
+							if (prop == "joint_1") {
+								target[ prop ] = position1
+							} 
+							if (prop == "joint_2") {
+								target[ prop ] = position2
+							} 
+							if (prop == "joint_3") {
+								target[ prop ] = position3
+							} 
+							if (prop == "joint_4") {
+								target[ prop ] = position4
+							} 
+							if (prop == "joint_5") {
+								target[ prop ] = position5
+							} 
+							if (prop == "joint_6") {
+								target[ prop ] = position6
+							} 
 
 						}
 
@@ -170,7 +285,6 @@
 				setTimeout( setupTween, duration );
 
 			}
-
 			function onWindowResize() {
 
 				camera.aspect = window.innerWidth / window.innerHeight;
